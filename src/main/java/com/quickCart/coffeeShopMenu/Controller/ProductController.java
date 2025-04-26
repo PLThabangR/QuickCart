@@ -2,6 +2,7 @@ package com.quickCart.coffeeShopMenu.Controller;
 
 import com.quickCart.coffeeShopMenu.Model.Product;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,13 +31,12 @@ public class ProductController {
     }
 
     @RequestMapping("/list") // This maps to the URL http://localhost:8080/products/list
-    @ResponseBody
-    public String listProducts() {
-        String productDisplay = "<strong>Product List:</strong> <hr>";
-        for (Product product : productList) {
-            productDisplay += "Product: " + product.getId() + " - " + product.getName() + " - $" + product.getPrice() + "<br>";
-        }
-        return productDisplay;
+    public String listProducts(Model productlistModel) {
+        String name="Thabang";
+       productlistModel.addAttribute("products",productList);
+        productlistModel.addAttribute("myName",name);
+
+       return "menu";
     }
 
     @RequestMapping("/details/{id}") // This maps to the URL http://localhost:8080/products/details/{id}

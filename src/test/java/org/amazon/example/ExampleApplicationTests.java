@@ -1,10 +1,10 @@
-package com.quickCart.coffeeShopMenu;
+package org.amazon.example;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class QuickCartApplicationTests {
+class ExampleApplicationTests {
 
 	@Test
 	void contextLoads() {

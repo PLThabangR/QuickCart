@@ -22,22 +22,18 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http
-                .authorizeHttpRequests()
-                .requestMatchers("/register", "/login").permitAll()  // Allow public access to these pages
-                .requestMatchers("/admin/**").hasRole("ADMIN")        // Only ADMIN can access /admin/*
-                .requestMatchers("/user/**").hasRole("USER")          // Only USER can access /user/*
-                .anyRequest().authenticated()
-                .and()
-                // Configure Basic Authentication for the API endpoints (like /products)
-                .httpBasic()
-                .and()
-                // Disable form login for API endpoints to avoid redirection
-                .csrf().disable()
-                .formLogin()
-                .loginPage("/login")
-                .defaultSuccessUrl("/welcome", true)
-                .and()
-                .logout().permitAll();
+                .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers("/register", "/login").permitAll() // Allow public access
+                        .requestMatchers("/admin/**").hasRole("ADMIN")     // TODO 3: Only ADMIN can access /admin/*
+                        .requestMatchers("/user/**").hasRole("USER")       // TODO 4: Only USER can access /user/*
+                        .anyRequest().authenticated()                      // Secure all other pages
+                )
+                .formLogin(login -> login
+                        .loginPage("/login")
+                        .defaultSuccessUrl("/welcome", true)
+                        .permitAll()                                       // Enable form login
+                )
+                .logout(logout -> logout.permitAll());                 // Optional: allow logout for all
 
         return http.build();
     }
